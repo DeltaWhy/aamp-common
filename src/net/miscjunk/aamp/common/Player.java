@@ -160,4 +160,27 @@ public class Player {
         }
         return false;
     }
+    
+    public Playlist getAllSongs() {
+        Playlist p = new Playlist();
+        for (MusicProvider pr : providers) {
+            p.append(pr.getAllSongs());
+        }
+        return p;
+    }
+    public Playlist buildPlaylist(Query query) {
+        Playlist playlist = new Playlist();
+        for (SimpleQuery part : query) {
+            Playlist p = new Playlist();
+            for (MusicProvider pr : providers) {
+                p.append(pr.getSongs(part));
+            }
+            if (part.isExclude()) {
+                playlist.subtract(p);
+            } else {
+                playlist.append(p);
+            }
+        }
+        return playlist;
+    }
 }
