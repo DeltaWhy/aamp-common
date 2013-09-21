@@ -5,13 +5,12 @@ public class MusicQueue {
 	int currentSong;
 
 	public MusicQueue(Playlist list) {
-		System.out.println("Playlist: " + list.getSongs());
 	    this.list = list;
 	    this.currentSong = 0;
 	}
 	
 	public boolean setCurrent(int index) {
-	    if (index >=0 && index < list.size()) {
+	    if (index >= 0 && index < list.size()) {
     	        this.currentSong = index;
     	        return true;
 	    } else {
@@ -38,5 +37,13 @@ public class MusicQueue {
 
 	public boolean isEmpty() {
 		return this.list.size() == 0;
+	}
+
+	public boolean goToNext() {
+		return setCurrent(currentSong + 1);
+	}
+
+	public boolean goToPrev() {
+		return setCurrent(currentSong- 1);
 	}
 }

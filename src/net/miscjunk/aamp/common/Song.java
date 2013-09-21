@@ -19,9 +19,6 @@ public class Song {
     public String getId() {
         return id;
     }
-    public MusicProvider getProvider() {
-        return provider;
-    }
 
     /**
      * @return the trackno
@@ -92,4 +89,17 @@ public class Song {
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
+
+	public PlayableSong inflate() {
+		return provider.inflate(this);
+	}
+	
+	@Override
+	public String toString() {
+		return id;
+	}
+
+	public MusicProvider getProvider() {
+		return provider;
+	};
 }

@@ -4,49 +4,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    List<Playlist> playlists;
-    List<MusicProvider> providers;
-    MusicQueue queue;
-    PlayableSong playing;
-    double volume;
+	private List<Playlist> playlists;
+    private List<MusicProvider> providers;
+    private MusicQueue queue;
+    private PlayableSong playing;
+    private double volume;
+	private OnSongFinished onSongFinished;
     
-    public Player() {
+    private class OnSongFinished implements Runnable {
+		@Override
+		public void run() {
+			System.out.println("Song finished");
+			Player.this.next();			
+		}
+
+    }
+    
+
+	private void stopCurrentPlaying() {
+		if(playing != null) {
+			playing.stop();
+		}
+	}	
+    
+    public boolean next() {
+    	if(queue.goToNext()) {
+    		return play();
+    	}
+    	return false;
+	}
+
+	public boolean prev() {
+		double currentPos = playing.getPosition();
+		if(playing != null &&  currentPos < 5) {
+			if(queue.goToPrev()) {
+				return play();
+			}else {
+				return seek(0.0); //can't go any farther back..let's just rewind
+			}
+		}else if(playing != null && currentPos >= 5) {
+			return seek(0.0); //he wants to go to the start
+		}
+		return false;
+
+	}
+	
+	public Player() {
         playlists = new ArrayList<Playlist>();
         providers = new ArrayList<MusicProvider>();
         queue = new MusicQueue(getAllSongs());
         volume = 1.0;
+        onSongFinished = new OnSongFinished();
     }
 
     public boolean play() {
-    	System.out.println("Playing");
     	if(queue.isEmpty()) { //never intialized
     		initQueue();
     	}
     	
         Song song = queue.getCurrent();
-
+        
         if (song == null) {
-        	System.out.println("DONE!");
-        	return false; //end of the list
+        	return false; //end of the list, we're done
         }
-    	System.out.println("About to play song " + song.getId());
-        if (playing != null) {
-            playing.stop();
-        }
-        System.out.println("About to inflate");
-        playing = song.getProvider().inflate(song);
-        System.out.println("About to set volume");
+        stopCurrentPlaying();
+        playing = song.inflate();
+        playing.setOnFinishedListener(onSongFinished);
 
         playing.setVolume(volume);
         
-        System.out.println("About to play");
-
         playing.play();
         System.out.println("Playing " + song.getId());
         return true;
     }
     private void initQueue() {
-    	System.out.println("Init queue");
     	queue = new MusicQueue(getAllSongs());
 	}
 
@@ -67,11 +98,9 @@ public class Player {
     }
     public boolean skipTo(String id) {
         if (queue.setCurrent(id)) {
-            if (playing != null) {
-                playing.stop();
-            }
+            stopCurrentPlaying();
             Song song = queue.getCurrent();
-            playing = song.getProvider().inflate(song);
+            playing = song.inflate();
             playing.setVolume(volume);
             playing.play();
             return true;
@@ -206,4 +235,5 @@ public class Player {
         }
         return playlist;
     }
+
 }
