@@ -13,26 +13,40 @@ public class Player {
     public Player() {
         playlists = new ArrayList<Playlist>();
         providers = new ArrayList<MusicProvider>();
-        queue = new MusicQueue(new Playlist());
+        queue = new MusicQueue(getAllSongs());
         volume = 1.0;
     }
 
     public boolean play() {
+    	System.out.println("Playing");
     	if(queue.isEmpty()) { //never intialized
     		initQueue();
     	}
+    	
         Song song = queue.getCurrent();
-        
-        if (song == null) return false; //end of the list
-        if (playing != null) {
-            playing.pause();
+
+        if (song == null) {
+        	System.out.println("DONE!");
+        	return false; //end of the list
         }
+    	System.out.println("About to play song " + song.getId());
+        if (playing != null) {
+            playing.stop();
+        }
+        System.out.println("About to inflate");
         playing = song.getProvider().inflate(song);
+        System.out.println("About to set volume");
+
         playing.setVolume(volume);
+        
+        System.out.println("About to play");
+
         playing.play();
+        System.out.println("Playing " + song.getId());
         return true;
     }
     private void initQueue() {
+    	System.out.println("Init queue");
     	queue = new MusicQueue(getAllSongs());
 	}
 
@@ -54,7 +68,7 @@ public class Player {
     public boolean skipTo(String id) {
         if (queue.setCurrent(id)) {
             if (playing != null) {
-                playing.pause();
+                playing.stop();
             }
             Song song = queue.getCurrent();
             playing = song.getProvider().inflate(song);

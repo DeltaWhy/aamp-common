@@ -9,4 +9,5 @@ public interface PlayableSong {
     double getPosition();
     
     void setVolume(double volume);
+	void stop();
 }
