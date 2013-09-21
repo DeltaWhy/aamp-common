@@ -20,6 +20,61 @@ public class Song {
         return id;
     }
 
+    public boolean match(SimpleQuery query) {
+        boolean matchAny = false;
+        boolean matchGenre = false;
+        boolean matchArtist = false;
+        boolean matchAlbum = false;
+        boolean matchTitle = false;
+        
+        if (query.getAny() != null) {
+            String s = query.getAny().toLowerCase();
+            if (title != null && title.toLowerCase().contains(s) ||
+                    album != null && album.toLowerCase().contains(s) ||
+                    artist != null && artist.toLowerCase().contains(s)) {
+                matchAny = true;
+            } else if (genres != null) {
+                for (String g : genres) {
+                    if (g.toLowerCase().contains(s)) {
+                        matchAny = true;
+                        break;
+                    }
+                }
+            }
+        } else matchAny = true;
+        if (query.getGenre() != null) {
+            if (genres != null) {
+                String s = query.getGenre().toLowerCase();
+                for (String g : genres) {
+                    if (g.toLowerCase().contains(s)) {
+                        matchGenre = true;
+                        break;
+                    }
+                }
+            }
+        } else matchGenre = true;
+        if (query.getArtist() != null) {
+            if (artist != null) {
+                String s = query.getArtist().toLowerCase();
+                if (artist.toLowerCase().contains(s)) matchArtist = true;
+            }
+        } else matchArtist = true;
+        if (query.getAlbum() != null) {
+            if (album != null) {
+                String s = query.getAlbum().toLowerCase();
+                if (album.toLowerCase().contains(s)) matchAlbum = true;
+            }
+        } else matchAlbum = true;
+        if (query.getTitle() != null) {
+            if (title != null) {
+                String s = query.getTitle().toLowerCase();
+                if (title.toLowerCase().contains(s)) matchTitle = true;
+            }
+        } else matchTitle = true;
+        
+        return matchAny && matchGenre && matchArtist && matchAlbum && matchTitle;
+    }
+
     /**
      * @return the trackno
      */
