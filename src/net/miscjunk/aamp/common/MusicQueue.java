@@ -16,5 +16,8 @@ public class MusicQueue {
 	public void play() {
 		queue.get(0).play();
 	}
-		
+
+	public void pause() {
+		queue.get(0).pause();
+	}
 }

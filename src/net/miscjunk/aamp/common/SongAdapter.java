@@ -13,4 +13,8 @@ public class SongAdapter {
 		this.playStrategy.playSong(this.song);
 	}
 
+	public void pause() {
+		this.playStrategy.pause(this.song);
+	}
+
 }
