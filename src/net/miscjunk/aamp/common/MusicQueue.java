@@ -11,13 +11,22 @@ public class MusicQueue {
 		for(SongAdapter song : adapters) {
 			queue.add(song);
 		}
+		
 	}
 	
 	public void play() {
-		queue.get(0).play();
+		getCurrent().play();
 	}
 
 	public void pause() {
-		queue.get(0).pause();
+		getCurrent().pause();
+	}
+
+	public void setVolume(double volume) {
+		getCurrent().setVolume(volume);
+	}
+	
+	private SongAdapter getCurrent() {
+		return queue.get(0);
 	}
 }
