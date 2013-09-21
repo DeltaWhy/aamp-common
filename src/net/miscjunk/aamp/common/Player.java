@@ -12,7 +12,6 @@ public class Player {
 	private OnSongFinished onSongFinished;
     
     private class OnSongFinished implements Runnable {
-		@Override
 		public void run() {
 			System.out.println("Song finished");
 			Player.this.next();			

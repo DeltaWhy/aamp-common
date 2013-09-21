@@ -19,7 +19,6 @@ public class Query implements Iterable<SimpleQuery> {
         parts.add(part);
     }
 
-    @Override
     public Iterator<SimpleQuery> iterator() {
         return parts.iterator();
     }

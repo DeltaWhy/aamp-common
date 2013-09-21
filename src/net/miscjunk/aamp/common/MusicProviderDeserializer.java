@@ -6,7 +6,6 @@ import com.google.gson.*;
 
 public class MusicProviderDeserializer implements JsonDeserializer<MusicProvider> {
 
-    @Override
     public MusicProvider deserialize(JsonElement src, Type typeOfSrc,
             JsonDeserializationContext context) throws JsonParseException {
         JsonObject jo = src.getAsJsonObject();

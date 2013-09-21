@@ -5,7 +5,6 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 
 public class SongSerializer implements JsonSerializer<Song> {
-    @Override
     public JsonElement serialize(Song src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject el = new JsonObject();
         el.addProperty("id", src.getId());

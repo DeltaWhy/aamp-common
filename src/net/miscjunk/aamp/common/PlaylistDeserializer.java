@@ -10,7 +10,6 @@ public class PlaylistDeserializer implements JsonDeserializer<Playlist> {
         this.player = player;
     }
 
-    @Override
     public Playlist deserialize(JsonElement src, Type typeOfSrc,
             JsonDeserializationContext context) throws JsonParseException {
         Playlist allSongs = player.getAllSongs();
