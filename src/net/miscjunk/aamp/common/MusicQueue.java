@@ -5,6 +5,7 @@ public class MusicQueue {
 	int currentSong;
 
 	public MusicQueue(Playlist list) {
+		System.out.println("Playlist: " + list.getSongs());
 	    this.list = list;
 	    this.currentSong = 0;
 	}
@@ -27,10 +28,15 @@ public class MusicQueue {
 	    return false;
 	}
 	public Song getCurrent() {
+		if(currentSong >= list.size()) { return null; }
 	    return list.getSong(currentSong);
 	}
 
 	public int getCurrentIndex() {
 	    return currentSong;
+	}
+
+	public boolean isEmpty() {
+		return this.list.size() == 0;
 	}
 }

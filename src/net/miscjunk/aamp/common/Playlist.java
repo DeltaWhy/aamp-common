@@ -5,36 +5,65 @@ import java.util.ArrayList;
 
 public class Playlist {
     List<Song> songs;
+    
+    public Playlist() {
+    	songs = new ArrayList<Song>();
+    }
 
     public String getId() {
-        return null;
+        return "playlist" + songs.hashCode();
     }
     public List<Song> getSongs() {
-        return null;
+        return songs;
     }
     public Song getSong(int index) {
-        return null;
+        return songs.get(index);
     }
+    /**
+     * This fucker can return NULLLLLL
+     * @param id
+     * @return
+     */
     public Song getSong(String id) {
+    	for(Song song : songs) {
+    		if(id.equals(song.getId())) {
+    			return song;
+    		}
+    	}
         return null;
     }
     public int size() {
         return songs.size();
     }
     
-    public void append(Playlist other) {
-        
+    public void append(Playlist other) {//hack--shouldn't have dups?
+        songs.addAll(other.songs);
     }
     public void subtract(Playlist other) {
-        
+        songs.removeAll(other.songs);
     }
     public void insertSong(Song song, int index) {
         
     }
     public void addSong(Song song) {
-        
+        songs.add(song);
     }
+    
     public void removeSong(String id) {
-        
+        int index = this.indexOf(id);
+        if(index > -1)
+        	songs.remove(index);
     }
+
+	private int indexOf(String id) {
+        int index = -1, i = 0;
+        for(Song song : songs) {
+    		if(id.equals(song.getId())) {
+    			index = i;
+    			break;
+    		}
+    		i++;
+        }
+        return index;
+	}
 }

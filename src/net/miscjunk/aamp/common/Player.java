@@ -18,9 +18,12 @@ public class Player {
     }
 
     public boolean play() {
+    	if(queue.isEmpty()) { //never intialized
+    		initQueue();
+    	}
         Song song = queue.getCurrent();
-
-        if (song == null) return false;
+        
+        if (song == null) return false; //end of the list
         if (playing != null) {
             playing.pause();
         }
@@ -29,7 +32,11 @@ public class Player {
         playing.play();
         return true;
     }
-    public boolean pause() {
+    private void initQueue() {
+    	queue = new MusicQueue(getAllSongs());
+	}
+
+	public boolean pause() {
         if (playing != null) {
             playing.pause();
             return true;
@@ -164,7 +171,9 @@ public class Player {
     public Playlist getAllSongs() {
         Playlist p = new Playlist();
         for (MusicProvider pr : providers) {
-            p.append(pr.getAllSongs());
+        	Playlist providedSongs = pr.getAllSongs();
+        	System.out.println(providedSongs.getSongs());
+            p.append(providedSongs);
         }
         return p;
     }
