@@ -193,11 +193,11 @@ public class Player {
         }
         return false;
     }
-    public boolean addProvider(MusicProvider list) {
+    public boolean addProvider(MusicProvider provider) {
         for (MusicProvider p : providers) {
-            if (p.getId().equals(list.getId())) return false;
+            if (p.getId().equals(provider.getId())) return false;
         }
-        providers.add(list);
+        providers.add(provider);
         return true;
     }
     public boolean removeProvider(String id)
