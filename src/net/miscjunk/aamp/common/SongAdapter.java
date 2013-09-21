@@ -17,4 +17,8 @@ public class SongAdapter {
 		this.playStrategy.pause(this.song);
 	}
 
+	public void setVolume(double volume) {
+		this.playStrategy.setVolume(volume);
+	}
+
 }
