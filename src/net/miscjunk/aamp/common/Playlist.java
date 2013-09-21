@@ -18,6 +18,9 @@ public class Playlist {
     public Song getSong(String id) {
         return null;
     }
+    public int size() {
+        return songs.size();
+    }
     
     public void append(Playlist other) {
         

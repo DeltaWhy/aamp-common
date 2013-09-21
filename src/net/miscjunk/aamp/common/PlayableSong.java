@@ -7,4 +7,6 @@ public interface PlayableSong {
     boolean pause();
     boolean seek(double position);
     double getPosition();
+    
+    void setVolume(double volume);
 }

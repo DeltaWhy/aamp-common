@@ -1,32 +1,35 @@
 package net.miscjunk.aamp.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MusicQueue {
-	private List<SongAdapter> queue;
+	Playlist list;
+	int currentSong;
 	
-	public MusicQueue(SongAdapter... adapters) {
-		queue = new ArrayList<>();
-		for(SongAdapter song : adapters) {
-			queue.add(song);
-		}
-		
+	public MusicQueue(Playlist list) {
+	    this.list = list;
+	    this.currentSong = 0;
 	}
 	
-	public void play() {
-		getCurrent().play();
+	public boolean setCurrent(int index) {
+	    if (index >=0 && index < list.size()) {
+    	        this.currentSong = index;
+    	        return true;
+	    } else {
+	        return false;
+	    }
 	}
-
-	public void pause() {
-		getCurrent().pause();
+	public boolean setCurrent(String id) {
+	    for (int i=0; i < list.size(); i++) {
+	        if (list.getSong(i).getId().equals(id)) {
+	            currentSong = i;
+	            return true;
+	        }
+	    }
+	    return false;
 	}
-
-	public void setVolume(double volume) {
-		getCurrent().setVolume(volume);
+	public Song getCurrent() {
+	    return list.getSong(currentSong);
 	}
-	
-	private SongAdapter getCurrent() {
-		return queue.get(0);
+	public int getCurrentIndex() {
+	    return currentSong;
 	}
 }
