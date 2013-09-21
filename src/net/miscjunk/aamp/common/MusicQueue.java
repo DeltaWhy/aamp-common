@@ -11,7 +11,6 @@ public class MusicQueue {
 		for(SongAdapter song : adapters) {
 			queue.add(song);
 		}
-		
 	}
 	
 	public void play() {
@@ -24,6 +23,10 @@ public class MusicQueue {
 
 	public void setVolume(double volume) {
 		getCurrent().setVolume(volume);
+	}
+
+	public void seek(double time) {
+		getCurrent().seek(time);
 	}
 	
 	private SongAdapter getCurrent() {

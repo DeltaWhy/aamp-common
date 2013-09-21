@@ -21,4 +21,8 @@ public class SongAdapter {
 		this.playStrategy.setVolume(volume);
 	}
 
+	public void seek(double time) {
+		this.playStrategy.seek(time);
+	}
+
 }
