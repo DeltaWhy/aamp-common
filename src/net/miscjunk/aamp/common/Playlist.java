@@ -5,13 +5,15 @@ import java.util.ArrayList;
 
 public class Playlist {
     List<Song> songs;
+    String id;
     
     public Playlist() {
     	songs = new ArrayList<Song>();
+    	id = "playlist" + songs.hashCode();
     }
 
     public String getId() {
-        return "playlist" + songs.hashCode();
+        return id;
     }
     public List<Song> getSongs() {
         return songs;
