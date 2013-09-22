@@ -3,7 +3,7 @@ package net.miscjunk.aamp.common;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements PlayerClient {
 	private List<Playlist> playlists;
     private List<MusicProvider> providers;
     private MusicQueue queue;
@@ -16,7 +16,6 @@ public class Player {
 			System.out.println("Song finished");
 			Player.this.next();			
 		}
-
     }
     
 
@@ -26,6 +25,9 @@ public class Player {
 		}
 	}	
     
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#next()
+	 */
     public boolean next() {
     	if(queue.goToNext()) {
     		return play();
@@ -33,6 +35,9 @@ public class Player {
     	return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#prev()
+	 */
 	public boolean prev() {
 		double currentPos = playing.getPosition();
 		if(playing != null &&  currentPos < 5) {
@@ -56,6 +61,9 @@ public class Player {
         onSongFinished = new OnSongFinished();
     }
 
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#play()
+	 */
     public boolean play() {
     	if(queue.isEmpty()) { //never intialized
     		initQueue();
@@ -80,6 +88,9 @@ public class Player {
     	queue = new MusicQueue(getAllSongs());
 	}
 
+	/* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#pause()
+	 */
 	public boolean pause() {
         if (playing != null) {
             playing.pause();
@@ -88,6 +99,9 @@ public class Player {
             return false;
         }
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#seek(double)
+	 */
     public boolean seek(double position) {
         if (playing != null) {
             playing.seek(position);
@@ -95,6 +109,9 @@ public class Player {
         }
         return false;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#skipTo(java.lang.String)
+	 */
     public boolean skipTo(String id) {
         if (queue.setCurrent(id)) {
             stopCurrentPlaying();
@@ -107,6 +124,9 @@ public class Player {
             return false;
         }
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#setVolume(double)
+	 */
     public boolean setVolume(double volume) {
         if (volume < 0.0 || volume > 1.0) return false;
         this.volume = volume;
@@ -115,15 +135,24 @@ public class Player {
         }
         return true;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#setQueue(net.miscjunk.aamp.common.MusicQueue)
+	 */
     public boolean setQueue(MusicQueue queue) {
         // TODO
         this.queue = queue;
         return true;
     }
     
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getVolume()
+	 */
     public double getVolume() {
         return volume;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getPosition()
+	 */
     public double getPosition() {
         if (playing != null) {
             return playing.getPosition();
@@ -131,22 +160,37 @@ public class Player {
             return 0.0;
         }
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getQueue()
+	 */
     public MusicQueue getQueue() {
         return queue;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getCurrentSong()
+	 */
     public Song getCurrentSong() {
         return queue.getCurrent();
     }
     
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getPlaylists()
+	 */
     public List<Playlist> getPlaylists() {
         return playlists;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getPlaylist(java.lang.String)
+	 */
     public Playlist getPlaylist(String id) {
         for (Playlist p : playlists) {
             if (p.getId().equals(id)) return p;
         }
         return null;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#updatePlaylist(net.miscjunk.aamp.common.Playlist)
+	 */
     public boolean updatePlaylist(Playlist list) {
         for (int i=0; i < playlists.size(); i++) {
             if (playlists.get(i).getId().equals(list.getId())) {
@@ -156,6 +200,9 @@ public class Player {
         }
         return false;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#addPlaylist(net.miscjunk.aamp.common.Playlist)
+	 */
     public boolean addPlaylist(Playlist list) {
         for (Playlist p : playlists) {
             if (p.getId().equals(list.getId())) return false;
@@ -163,6 +210,9 @@ public class Player {
         playlists.add(list);
         return true;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#removePlaylist(java.lang.String)
+	 */
     public boolean removePlaylist(String id)
     {
         for (int i=0; i < playlists.size(); i++) {
@@ -174,15 +224,24 @@ public class Player {
         return false;
     }
     
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getProviders()
+	 */
     public List<MusicProvider> getProviders() {
         return providers;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getProvider(java.lang.String)
+	 */
     public MusicProvider getProvider(String id) {
         for (MusicProvider p : providers) {
             if (p.getId().equals(id)) return p;
         }
         return null;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#updateProvider(net.miscjunk.aamp.common.MusicProvider)
+	 */
     public boolean updateProvider(MusicProvider list) {
         for (int i=0; i < providers.size(); i++) {
             if (providers.get(i).getId().equals(list.getId())) {
@@ -192,6 +251,9 @@ public class Player {
         }
         return false;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#addProvider(net.miscjunk.aamp.common.MusicProvider)
+	 */
     public boolean addProvider(MusicProvider provider) {
         for (MusicProvider p : providers) {
             if (p.getId().equals(provider.getId())) return false;
@@ -199,6 +261,9 @@ public class Player {
         providers.add(provider);
         return true;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#removeProvider(java.lang.String)
+	 */
     public boolean removeProvider(String id)
     {
         for (int i=0; i < providers.size(); i++) {
@@ -210,6 +275,9 @@ public class Player {
         return false;
     }
     
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#getAllSongs()
+	 */
     public Playlist getAllSongs() {
         Playlist p = new Playlist();
         for (MusicProvider pr : providers) {
@@ -219,6 +287,9 @@ public class Player {
         }
         return p;
     }
+    /* (non-Javadoc)
+	 * @see net.miscjunk.aamp.common.PlayerClient#buildPlaylist(net.miscjunk.aamp.common.Query)
+	 */
     public Playlist buildPlaylist(Query query) {
         Playlist playlist = new Playlist();
         for (SimpleQuery part : query) {

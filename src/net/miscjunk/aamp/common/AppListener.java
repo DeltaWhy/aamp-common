@@ -1,9 +1,9 @@
 package net.miscjunk.aamp.common;
 
 public abstract class AppListener {	
-	protected Player handler;
+	protected PlayerClient handler;
 
-	public AppListener(Player handler) {
+	public AppListener(PlayerClient handler) {
 		this.handler = handler;
 	}
 	

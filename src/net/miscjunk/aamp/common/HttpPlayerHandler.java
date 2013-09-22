@@ -14,10 +14,10 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import com.google.gson.Gson;
 
 public class HttpPlayerHandler extends AbstractHandler {
-    private Player player;
+    private PlayerClient player;
     private Gson gson;
 
-    public HttpPlayerHandler(Player appHandler, Gson gson) {
+    public HttpPlayerHandler(PlayerClient appHandler, Gson gson) {
         this.player = appHandler;
         this.gson = gson;
     }

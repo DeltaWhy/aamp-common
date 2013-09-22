@@ -5,8 +5,8 @@ import java.lang.reflect.Type;
 import com.google.gson.*;
 
 public class PlaylistDeserializer implements JsonDeserializer<Playlist> {
-    Player player;
-    public PlaylistDeserializer(Player player) {
+    PlayerClient player;
+    public PlaylistDeserializer(PlayerClient player) {
         this.player = player;
     }
 
