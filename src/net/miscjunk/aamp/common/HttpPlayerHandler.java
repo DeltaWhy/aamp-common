@@ -31,7 +31,7 @@ public class HttpPlayerHandler extends AbstractHandler {
             if (path[1].equals("songs")) {
                 if (path.length < 3 || path[2].equals("")) {
                     Playlist allSongs = player.getAllSongs();
-                    String json = gson.toJson(allSongs.getSongs());
+                    String json = gson.toJson(allSongs.getSongs());//don't recursively die
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getOutputStream().print(json);
                 }
@@ -202,6 +202,8 @@ public class HttpPlayerHandler extends AbstractHandler {
                     }
                 }
             }
+        }else {
+        	response.setStatus(404);
         }
     }
 }
