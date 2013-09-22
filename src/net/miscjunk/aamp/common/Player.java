@@ -322,6 +322,10 @@ public class Player implements PlayerClient {
         this.evtServer = evtServer;
     }
     
+    public void shuffleQueue() {
+        queue.shuffle();
+    }
+    
     private void sendEvent(String message) {
         if (evtServer != null) {
             evtServer.sendMessage(message);

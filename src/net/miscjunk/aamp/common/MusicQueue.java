@@ -46,4 +46,8 @@ public class MusicQueue {
 	public boolean goToPrev() {
 		return setCurrent(currentSong- 1);
 	}
+
+	public void shuffle() {
+	    list.shuffle();
+	}
 }

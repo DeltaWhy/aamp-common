@@ -123,6 +123,12 @@ public class HttpPlayerHandler extends AbstractHandler {
                         response.getOutputStream().print("Couldn't add provider.");
                     }
                 }
+            } else if (path[1].equals("shuffle")) {
+                if (path.length < 3 || path[2].equals("")) {
+                    player.shuffleQueue();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getOutputStream().print("Shuffled queue.");
+                }
             }
         } else if ("PUT".equals(request.getMethod())) {
             System.out.println("PUT " + target);

@@ -19,6 +19,8 @@ public interface PlayerClient {
 	boolean setVolume(double volume);
 
 	boolean setQueue(MusicQueue queue);
+	
+	void shuffleQueue();
 
 	double getVolume();
 

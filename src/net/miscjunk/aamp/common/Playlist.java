@@ -1,5 +1,6 @@
 package net.miscjunk.aamp.common;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -55,6 +56,10 @@ public class Playlist {
         int index = this.indexOf(id);
         if(index > -1)
         	songs.remove(index);
+    }
+    
+    public void shuffle() {
+        Collections.shuffle(songs);
     }
 
 	private int indexOf(String id) {
