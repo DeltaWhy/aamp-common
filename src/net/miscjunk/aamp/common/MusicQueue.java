@@ -50,4 +50,8 @@ public class MusicQueue {
 	public void shuffle() {
 	    list.shuffle();
 	}
+	
+	public Playlist toPlaylist() {
+	    return list;
+	}
 }

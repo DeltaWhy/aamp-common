@@ -324,6 +324,7 @@ public class Player implements PlayerClient {
     
     public void shuffleQueue() {
         queue.shuffle();
+        sendEvent("queue");
     }
     
     private void sendEvent(String message) {
