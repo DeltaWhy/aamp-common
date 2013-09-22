@@ -10,6 +10,8 @@ public class Player implements PlayerClient {
     private PlayableSong playing;
     private double volume;
 	private OnSongFinished onSongFinished;
+	
+	private EventServer evtServer;
     
     private class OnSongFinished implements Runnable {
 		public void run() {
@@ -81,6 +83,7 @@ public class Player implements PlayerClient {
         playing.setVolume(volume);
         
         playing.play();
+        sendEvent("play");
         System.out.println("Playing " + song.getId());
         return true;
     }
@@ -94,6 +97,7 @@ public class Player implements PlayerClient {
 	public boolean pause() {
         if (playing != null) {
             playing.pause();
+            sendEvent("pause");
             return true;
         } else {
             return false;
@@ -306,4 +310,13 @@ public class Player implements PlayerClient {
         return playlist;
     }
 
+    public void setEventServer(EventServer evtServer) {
+        this.evtServer = evtServer;
+    }
+    
+    private void sendEvent(String message) {
+        if (evtServer != null) {
+            evtServer.sendMessage(message);
+        }
+    }
 }

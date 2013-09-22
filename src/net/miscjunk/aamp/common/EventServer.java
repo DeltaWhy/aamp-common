@@ -28,6 +28,13 @@ public class EventServer {
         System.out.println("EventServer listening on "+this.port);
         thread = new ListenerThread(this);
         thread.start();
+        try {
+            synchronized (this) {
+                this.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
     }
     public boolean stop() {
@@ -45,7 +52,7 @@ public class EventServer {
     public boolean sendMessage(String message) {
         for (ChannelHandlerContext ctx : channels) {
             ByteBuf buf = ctx.alloc().buffer();
-            buf.writeBytes(message.getBytes());
+            buf.writeBytes((message+"\n").getBytes());
             ctx.writeAndFlush(buf);
         }
         return true;
@@ -74,7 +81,9 @@ public class EventServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
 
                 ChannelFuture f = b.bind(port).sync();
-
+                synchronized (server) {
+                    server.notify();
+                }
                 serverChannel = f.channel();
                 serverChannel.closeFuture().sync();
             } catch (InterruptedException e) {
