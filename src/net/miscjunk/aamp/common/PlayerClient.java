@@ -48,7 +48,7 @@ public interface PlayerClient {
 
 	boolean removeProvider(String id);
 
-	Playlist getAllSongs();
+	Playlist getAllSongs(); //Should be List<Song>
 
 	Playlist buildPlaylist(Query query);
 
