@@ -16,6 +16,7 @@ public class Player implements PlayerClient {
     private class OnSongFinished implements Runnable {
 		public void run() {
 			System.out.println("Song finished");
+			sendEvent("next");
 			Player.this.next();			
 		}
     }
@@ -32,6 +33,7 @@ public class Player implements PlayerClient {
 	 */
     public boolean next() {
     	if(queue.goToNext()) {
+    	    sendEvent("next");
     		return play();
     	}
     	return false;
@@ -44,11 +46,14 @@ public class Player implements PlayerClient {
 		double currentPos = playing.getPosition();
 		if(playing != null &&  currentPos < 5) {
 			if(queue.goToPrev()) {
+			    sendEvent("prev");
 				return play();
 			}else {
+			    sendEvent("rewind");
 				return seek(0.0); //can't go any farther back..let's just rewind
 			}
 		}else if(playing != null && currentPos >= 5) {
+		    sendEvent("rewind");
 			return seek(0.0); //he wants to go to the start
 		}
 		return false;
@@ -109,6 +114,7 @@ public class Player implements PlayerClient {
     public boolean seek(double position) {
         if (playing != null) {
             playing.seek(position);
+            sendEvent("seek:"+position);
             return true;
         }
         return false;
@@ -120,6 +126,7 @@ public class Player implements PlayerClient {
         if (queue.setCurrent(id)) {
             stopCurrentPlaying();
             Song song = queue.getCurrent();
+            sendEvent("skipTo:"+id);
             playing = song.inflate();
             playing.setVolume(volume);
             playing.play();
@@ -145,6 +152,7 @@ public class Player implements PlayerClient {
     public boolean setQueue(MusicQueue queue) {
         // TODO
         this.queue = queue;
+        sendEvent("queue");
         return true;
     }
     
